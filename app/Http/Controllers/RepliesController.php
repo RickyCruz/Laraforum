@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\Thread;
 use Illuminate\Http\Request;
 
 class RepliesController extends Controller
 {
+    /**
+     * Create a new RepliesController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -28,14 +37,19 @@ class RepliesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Persist a new reply.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Thread $thread
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Thread $thread)
     {
-        //
+        $thread->addReply([
+            'body' => request('body'),
+            'user_id' => auth()->id()
+        ]);
+
+        return back();
     }
 
     /**
