@@ -13,7 +13,7 @@ class ReadThreadsTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
     /** @test */
@@ -34,8 +34,7 @@ class ReadThreadsTest extends TestCase
     public function a_user_can_read_replies_that_are_associated_with_a_thread()
     {
         // Given we have a thread and that thread includes replies
-        $reply = factory('App\Reply')
-            ->create(['thread_id' => $this->thread->id]);
+        $reply = create('App\Reply', ['thread_id' => $this->thread->id]);
 
         // When we visit a thread page
         $this->get($this->thread->path())
