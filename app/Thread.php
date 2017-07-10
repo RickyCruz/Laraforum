@@ -11,7 +11,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'body', 'user_id'];
+    protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
 
     /**
      * Fetch a path to the current thread.
@@ -20,7 +20,7 @@ class Thread extends Model
      */
     public function path()
     {
-        return '/threads/' . $this->id;
+        return "/threads/{$this->channel->slug}/{$this->id}";
     }
 
     /**
@@ -41,6 +41,16 @@ class Thread extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * A thread is assigned a channel.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class);
     }
 
     /**
