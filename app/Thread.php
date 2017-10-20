@@ -14,6 +14,18 @@ class Thread extends Model
     protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
 
     /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replyCount', function ($builder) {
+            $builder->withCount('replies');
+        });
+    }
+
+    /**
      * Fetch a path to the current thread.
      *
      * @return string
