@@ -14,6 +14,13 @@ class Thread extends Model
     protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
 
     /**
+     * Eager Load relationships in every single query.
+     *
+     * @var array
+     */
+    protected $with = ['creator', 'channel'];
+
+    /**
      * Boot the model.
      */
     protected static function boot()
@@ -42,9 +49,7 @@ class Thread extends Model
      */
     public function replies()
     {
-        return $this->hasMany(Reply::class)
-            ->withCount('favorites')
-            ->with('owner');
+        return $this->hasMany(Reply::class);
     }
 
     /**
