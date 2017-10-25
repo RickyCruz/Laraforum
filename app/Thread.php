@@ -14,7 +14,7 @@ class Thread extends Model
     protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
 
     /**
-     * Eager Load relationships in every single query.
+     * The relationships to always eager-load.
      *
      * @var array
      */
@@ -29,6 +29,10 @@ class Thread extends Model
 
         static::addGlobalScope('replyCount', function ($builder) {
             $builder->withCount('replies');
+        });
+
+        static::deleting(function ($thread) {
+            $thread->replies()->delete();
         });
     }
 
