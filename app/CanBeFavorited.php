@@ -31,6 +31,18 @@ trait CanBeFavorited
     }
 
     /**
+     * Unfavorite the current reply.
+     *
+     * @return Model
+     */
+    public function unfavorite()
+    {
+        $attributes = ['user_id' => auth()->id()];
+
+        $this->favorites()->where($attributes)->delete();
+    }
+
+    /**
      * Determine if the current reply has been favorited.
      *
      * @return boolean
@@ -38,6 +50,16 @@ trait CanBeFavorited
     public function isFavorited()
     {
         return !! $this->favorites->where('user_id', auth()->id())->count();
+    }
+
+    /**
+     * Fetch the favorited status as a property.
+     * 
+     * @return bool
+     */
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
     }
 
     /**
