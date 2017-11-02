@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 trait CanBeFavorited
 {
     /**
+     * Boot the trait.
+     */
+    protected static function bootCanBeFavorited()
+    {
+        static::deleting(function ($model) {
+            $model->favorites->each->delete();
+        });
+    }
+
+    /**
      * A reply can be favorited.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -39,7 +49,9 @@ trait CanBeFavorited
     {
         $attributes = ['user_id' => auth()->id()];
 
-        $this->favorites()->where($attributes)->delete();
+        $this->favorites()->where($attributes)->get()->each(function ($favorite) {
+            $favorite->delete();
+        });
     }
 
     /**
@@ -54,7 +66,7 @@ trait CanBeFavorited
 
     /**
      * Fetch the favorited status as a property.
-     * 
+     *
      * @return bool
      */
     public function getIsFavoritedAttribute()
