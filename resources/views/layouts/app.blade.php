@@ -12,6 +12,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Scipts -->
+    <script>
+        window.App = {!! json_encode([
+            'signedIn' => Auth::check(),
+            'user' => ['id' => Auth::user()->id]
+        ]) !!}
+    </script>
+
     <style>
         body { padding-bottom: 100px; }
         .level { display: flex; align-items: center; }
