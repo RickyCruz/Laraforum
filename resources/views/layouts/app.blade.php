@@ -17,7 +17,7 @@
     <script>
         window.App = {!! json_encode([
             'signedIn' => Auth::check(),
-            'user' => ['id' => Auth::user()->id]
+            'user' => ['id' => (Auth::check()) ? Auth::user()->id : false]
         ]) !!}
     </script>
 
