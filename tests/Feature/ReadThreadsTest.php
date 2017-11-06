@@ -37,9 +37,10 @@ class ReadThreadsTest extends TestCase
         $reply = create('App\Reply', ['thread_id' => $this->thread->id]);
 
         // When we visit a thread page
-        $this->get($this->thread->path())
+        $this->get($this->thread->path());
+
         // Then we should see the replies.
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
     }
 
     /** @test */
@@ -80,9 +81,21 @@ class ReadThreadsTest extends TestCase
 
         $threadWithNoReplies = $this->thread;
 
-        // Whren I filter all threads by popularity
+        // When I filter all threads by popularity
         $response = $this->getJson('threads?popular=1')->json();
         // Then they should be returned from most replies to least.
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+    }
+
+    /** @test */
+    public function a_user_can_request_all_replies_for_a_given_thread()
+    {
+        $thread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $thread->id], 2);
+
+        $response = $this->getJson($thread->path() . '/replies')->json();
+
+        $this->assertCount(2, $response['data']);
+        $this->assertEquals(2, $response['total']);
     }
 }
