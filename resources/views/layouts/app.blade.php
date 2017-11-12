@@ -17,7 +17,10 @@
     <script>
         window.App = {!! json_encode([
             'signedIn' => Auth::check(),
-            'user' => ['id' => (Auth::check()) ? Auth::user()->id : false]
+            'user' => [
+                'id' => (Auth::check()) ? Auth::user()->id : false,
+                'name' => (Auth::check()) ? Auth::user()->name : false
+            ]
         ]) !!}
     </script>
 
