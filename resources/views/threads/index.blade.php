@@ -10,14 +10,10 @@
                         <div class="level">
                             <h4 class="flex">
                                 <a href="{{ $thread->path() }}">
-                                    @if (auth()->check())
-                                        @if ($thread->hasUpdatesFor(auth()->user()))
-                                            <strong>
-                                                {{ $thread->title }}
-                                            </strong>
-                                        @else
+                                    @if (auth()->check() && $thread->hasUpdatesFor(auth()->user()))
+                                        <strong>
                                             {{ $thread->title }}
-                                        @endif
+                                        </strong>
                                     @else
                                         {{ $thread->title }}
                                     @endif
