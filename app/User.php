@@ -81,6 +81,11 @@ class User extends Authenticatable
         );
     }
 
+    public function avatar()
+    {
+        return $this->avatar_path ?: 'avatars/default.jpg';
+    }
+
     /**
      * Get the cache key for when a user reads a thread.
      *
