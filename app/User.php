@@ -81,9 +81,15 @@ class User extends Authenticatable
         );
     }
 
-    public function avatar()
+    /**
+     * Get the path to the user's avatar.
+     *
+     * @param  string $avatar
+     * @return string
+     */
+    public function getAvatarPathAttribute($avatar)
     {
-        return $this->avatar_path ?: 'avatars/default.jpg';
+        return asset($avatar ?: 'images/avatars/default.png');
     }
 
     /**
