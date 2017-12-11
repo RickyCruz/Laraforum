@@ -14,7 +14,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
+    protected $fillable = ['title', 'slug', 'body', 'user_id', 'channel_id'];
 
     /**
      * The relationships to always eager-load.
@@ -51,7 +51,7 @@ class Thread extends Model
      */
     public function path()
     {
-        return "/threads/{$this->channel->slug}/{$this->id}";
+        return "/threads/{$this->channel->slug}/{$this->slug}";
     }
 
     /**
@@ -171,5 +171,15 @@ class Thread extends Model
         $key = $user->visitedThreadCacheKey($this);
 
         return $this->updated_at > cache($key);
+    }
+
+    /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }
