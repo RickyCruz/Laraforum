@@ -14,7 +14,9 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'body', 'user_id', 'channel_id'];
+    protected $fillable = [
+        'title', 'slug', 'body', 'user_id', 'channel_id', 'best_reply_id'
+    ];
 
     /**
      * The relationships to always eager-load.
@@ -199,5 +201,17 @@ class Thread extends Model
         }
 
         $this->attributes['slug'] = $slug;
+    }
+
+    /**
+     * Mark the given reply as the best answer.
+     *
+     * @param Reply $reply
+     */
+    public function markBestReply(Reply $reply)
+    {
+        $this->best_reply_id = $reply->id;
+
+        $this->save();
     }
 }

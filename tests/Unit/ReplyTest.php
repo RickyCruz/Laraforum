@@ -12,7 +12,7 @@ class ReplyTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function it_has_an_owner()
+    function it_has_an_owner()
     {
         $reply = create('App\Reply');
 
@@ -20,7 +20,7 @@ class ReplyTest extends TestCase
     }
 
     /** @test */
-    public function it_knows_if_it_was_just_published()
+    function it_knows_if_it_was_just_published()
     {
         $reply = create('App\Reply');
 
@@ -52,5 +52,17 @@ class ReplyTest extends TestCase
             'Hello <a href="/profiles/Jane-Doe">@Jane-Doe</a>.',
             $reply->body
         );
+    }
+
+    /** @test */
+    function it_knows_if_it_is_the_best_reply()
+    {
+        $reply = create('App\Reply');
+
+        $this->assertFalse($reply->isBest());
+
+        $reply->thread->update(['best_reply_id' => $reply->id]);
+
+        $this->assertTrue($reply->fresh()->isBest());
     }
 }
