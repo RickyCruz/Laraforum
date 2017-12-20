@@ -15,7 +15,7 @@ class Thread extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'body', 'user_id', 'channel_id', 'best_reply_id'
+        'title', 'slug', 'body', 'user_id', 'channel_id', 'best_reply_id', 'locked'
     ];
 
     /**
@@ -103,6 +103,14 @@ class Thread extends Model
         event(new ThreadReceivedNewReply($reply));
 
         return $reply;
+    }
+
+    /**
+     * Lock the thread.
+     */
+    public function lock()
+    {
+        $this->update(['locked' => true]);
     }
 
     /**
