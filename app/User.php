@@ -89,6 +89,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Determine if the user is an administrator.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return in_array($this->name, ['JohnDoe', 'JaneDoe'], true);
+    }
+
+
+    /**
      * Record that the user has read the given thread.
      *
      * @param Thread $thread
