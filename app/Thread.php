@@ -2,12 +2,13 @@
 
 namespace App;
 
+use Laravel\Scout\Searchable;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, Searchable;
 
     /**
      * The attributes that are mass assignable.
