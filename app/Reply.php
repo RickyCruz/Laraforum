@@ -134,4 +134,15 @@ class Reply extends Model
     {
         return $this->isBest();
     }
+
+    /**
+     * Access the body attribute.
+     *
+     * @param  string $body
+     * @return string
+     */
+    public function getBodyAttribute($body)
+    {
+        return \Purify::clean($body);
+    }
 }
