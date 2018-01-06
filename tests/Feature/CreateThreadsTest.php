@@ -6,11 +6,11 @@ use App\Thread;
 use App\Activity;
 use Tests\TestCase;
 use App\Rules\Recaptcha;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateThreadsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {
