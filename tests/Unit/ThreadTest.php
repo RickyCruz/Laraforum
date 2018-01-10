@@ -27,7 +27,8 @@ class ThreadTest extends TestCase
         $thread = create('App\Thread');
 
         $this->assertEquals(
-            "/threads/{$thread->channel->slug}/{$thread->slug}", $thread->path()
+            "/threads/{$thread->channel->slug}/{$thread->slug}",
+            $thread->path()
         );
     }
 
@@ -67,7 +68,7 @@ class ThreadTest extends TestCase
 
         $this->thread->addReply([
             'body' => 'Foobar',
-            'user_id' => 666
+            'user_id' => create('App\User')->id
         ]);
 
         Notification::assertSentTo(auth()->user(), ThreadWasUpdated::class);
