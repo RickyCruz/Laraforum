@@ -36,6 +36,8 @@ trait CanBeFavorited
         $attributes = ['user_id' => auth()->id()];
 
         if (! $this->favorites()->where($attributes)->exists()) {
+            Reputation::award(auth()->user(), Reputation::REPLY_FAVORITED);
+
             return $this->favorites()->create($attributes);
         }
     }
@@ -52,6 +54,8 @@ trait CanBeFavorited
         $this->favorites()->where($attributes)->get()->each(function ($favorite) {
             $favorite->delete();
         });
+
+        Reputation::reduce(auth()->user(), Reputation::REPLY_FAVORITED);
     }
 
     /**
