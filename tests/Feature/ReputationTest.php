@@ -86,7 +86,7 @@ class ReputationTest extends TestCase
         $thread = create('App\Thread');
 
         $reply = $thread->addReply([
-            'user_id' => auth()->id(),
+            'user_id' => create('App\User')->id,
             'body' => 'Here is a reply.'
         ]);
 
@@ -95,6 +95,7 @@ class ReputationTest extends TestCase
         $reputation = Reputation::REPLY_POSTED + Reputation::REPLY_FAVORITED;
 
         $this->assertEquals($reputation, $reply->owner->fresh()->reputation);
+        $this->assertEquals(0, auth()->user()->reputation);
     }
 
     /** @test */
@@ -102,7 +103,7 @@ class ReputationTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply', ['user_id' => auth()->id() ]);
+        $reply = create('App\Reply', ['user_id' => create('App\User')->id]);
 
         $this->post("/replies/{$reply->id}/favorites");
 
@@ -116,5 +117,6 @@ class ReputationTest extends TestCase
                         - Reputation::REPLY_FAVORITED;
 
         $this->assertEquals($reputation, $reply->owner->fresh()->reputation);
+        $this->assertEquals(0, auth()->user()->reputation);
     }
 }
