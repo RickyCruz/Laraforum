@@ -25,7 +25,7 @@ class FavoritesTest extends TestCase
         $reply = create('App\Reply');
 
         // If I post to a "favorite" endpoint
-        $this->post('replies/' . $reply->id . '/favorites');
+        $this->post(route('replies.favorite', $reply->id));
 
         // It should be recorded in the database
         $this->assertCount(1, $reply->favorites);
@@ -41,7 +41,7 @@ class FavoritesTest extends TestCase
         $reply->favorite();
 
         // If I delete to a "unfavorite" endpoint
-        $this->delete('replies/' . $reply->id . '/favorites');
+        $this->delete(route('replies.unfavorite', $reply->id));
         // It should be deleted in the database
         $this->assertCount(0, $reply->favorites);
     }
@@ -54,8 +54,8 @@ class FavoritesTest extends TestCase
         $reply = create('App\Reply');
 
         try {
-            $this->post('replies/' . $reply->id . '/favorites');
-            $this->post('replies/' . $reply->id . '/favorites');
+            $this->post(route('replies.favorite', $reply->id));
+            $this->post(route('replies.favorite', $reply->id));
         } catch (\Exception $e) {
             $this->fail('Did not expect to insert the same record set twice.');
         }

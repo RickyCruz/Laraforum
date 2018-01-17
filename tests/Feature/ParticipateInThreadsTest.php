@@ -81,7 +81,9 @@ class ParticipateInThreadsTest extends TestCase
         $reply = create('App\Reply', ['user_id' => auth()->id()]);
 
         $updatedReply = 'You been changed.';
-        $this->patch("/replies/{$reply->id}", ['body' => $updatedReply]);
+        $this->patch(
+            route('replies.update', $reply->id), ['body' => $updatedReply]
+        );
 
         $this->assertDatabaseHas('replies', [
             'id' => $reply->id,
@@ -96,11 +98,11 @@ class ParticipateInThreadsTest extends TestCase
 
         $reply = create('App\Reply');
 
-        $this->patch("/replies/{$reply->id}")
+        $this->patch(route('replies.update', $reply->id))
             ->assertRedirect('login');
 
         $this->signIn()
-            ->delete("/replies/{$reply->id}")
+            ->patch(route('replies.update', $reply->id))
             ->assertStatus(403);
     }
 
